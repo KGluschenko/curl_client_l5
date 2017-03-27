@@ -2,7 +2,7 @@ PHP cUrl extension wrapper.
 
 Add this to composer.json require section
 ```json
- "vis/curl-client_l5": "1.*"
+ "vis/curl_client_l5": "1.*"
 ```
 
 Execute

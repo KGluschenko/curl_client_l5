@@ -1,6 +1,7 @@
 {
   "name": "vis/curl_client_l5",
   "description": "PHP cUrl extension wrapper",
+  "license": "MIT",
   "authors": [
     {
       "name": "K.Gluschenko",

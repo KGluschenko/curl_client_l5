@@ -214,7 +214,9 @@ class CurlClient
 
     public function doCloseCurl()
     {
-        curl_close($this->getCurl());
+        if(gettype($this->getCurl()) == 'resource'){
+            curl_close($this->getCurl());
+        }
     }
 
 }

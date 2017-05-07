@@ -3,7 +3,12 @@
 class CurlClient
 {
     private $curl;
-    private $curlResponse = [];
+    private $curlResponse = [
+        "http_code"         => 0,
+        "response_header"   => "",
+        "response_body"     => ""
+    ];
+
 
     public function __construct()
     {
@@ -37,6 +42,30 @@ class CurlClient
     public function getCurlResponse()
     {
         return $this->curlResponse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurlResponseHttpCode()
+    {
+        return $this->getCurlResponse()['http_code'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurlResponseHeader()
+    {
+        return $this->getCurlResponse()['response_header'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurlResponseBody()
+    {
+        return $this->getCurlResponse()['response_body'];
     }
 
     /**
@@ -185,6 +214,9 @@ class CurlClient
         return $this->setCurlOpt(CURLOPT_COOKIE, http_build_query($option, '', '; '));
     }
 
+    /**
+     * Setting default properties for curl
+     */
     private function doInitCurl()
     {
         $this->setCurl(curl_init());
@@ -193,6 +225,10 @@ class CurlClient
         $this->setCurlOpt(CURLOPT_RETURNTRANSFER, 1);
     }
 
+    /**
+     * Doing CurlRequest and setting CurlResponse
+     * @return CurlClient
+     */
     public function doCurlRequest()
     {
         $response    = curl_exec($this->getCurl());
@@ -208,15 +244,27 @@ class CurlClient
             "response_body"     => $response_body,
         ]);
 
-
-        return $this->getCurlResponse();
+        return $this;
     }
 
+    /**
+     * If CurlRequest has successful http_code
+     * @return bool
+     */
+    public function isSuccessful()
+    {
+        return $this->getCurlResponseHttpCode() >= 200 && $this->getCurlResponseHttpCode() < 300;
+    }
+
+    /**
+     * Destroying curl resource if it's still up
+     */
     public function doCloseCurl()
     {
-        if(gettype($this->getCurl()) == 'resource'){
+        if (gettype($this->getCurl()) == 'resource') {
             curl_close($this->getCurl());
         }
     }
+
 
 }

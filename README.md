@@ -1,27 +1,15 @@
 PHP cUrl extension wrapper.
 
-Add this to composer.json require section
-```json
- "vis/curl_client_l5": "1.*"
-```
-
 Execute
 ```json
-composer update
+composer require "vis/curl_client_l5":"1.*"
 ```
 
-Define usage of a class
+Usage
 ```php
-use Vis\CurlClient\CurlClient;
-```
+$curl = New Vis/CurlClient/CurlClient();
 
-After that you can initialize object
-```php
-$curl = new CurlClient();
-```
-
-To configure curl request you can use following methods
-```php
+//example of all possible methods
 $curl->setRequestCredentials($login, $password, $authType) //$authType is optional
      ->setRequestHeader($option, $value) //$option accepts array ["option" => "value", "option1" => "value1"]
      ->setRequestCookie($option, $value) //$option accepts array ["option" => "value", "option1" => "value1"]

@@ -1,7 +1,12 @@
 <?php namespace Vis\CurlClient;
 
+/** PHP cUrl extension wrapper
+ * Class CurlClient
+ * @package Vis\CurlClient
+ */
 class CurlClient
 {
+
     private $curl;
     private $curlResponse = [
         "http_code"         => 0,
@@ -10,25 +15,37 @@ class CurlClient
     ];
 
 
+    /**
+     * CurlClient constructor.
+     * Calls doInitCurl method
+     */
     public function __construct()
     {
         $this->doInitCurl();
     }
 
+    /**
+     * CurlClient destructor.
+     * Calls doCloseCurl method
+     */
     public function __destruct()
     {
         $this->doCloseCurl();
     }
 
     /**
+     * Sets curl request property
      * @param mixed $curl
+     * @return CurlClient
      */
     private function setCurl($curl)
     {
         $this->curl = $curl;
+        return $this;
     }
 
     /**
+     * Gets curl request property
      * @return mixed
      */
     private function getCurl()
@@ -37,6 +54,16 @@ class CurlClient
     }
 
     /**
+     * Fetches only http_code from curl request response property
+     * @param mixed $curlResponse
+     */
+    private function setCurlResponse($curlResponse)
+    {
+        $this->curlResponse = $curlResponse;
+    }
+
+    /**
+     * Gets curl request response property
      * @return mixed
      */
     public function getCurlResponse()
@@ -45,6 +72,7 @@ class CurlClient
     }
 
     /**
+     * Fetches only http_code from curl request response property
      * @return mixed
      */
     public function getCurlResponseHttpCode()
@@ -53,6 +81,7 @@ class CurlClient
     }
 
     /**
+     * Fetches only response_header from curl request response property
      * @return mixed
      */
     public function getCurlResponseHeader()
@@ -61,6 +90,7 @@ class CurlClient
     }
 
     /**
+     * Fetches only response_body from curl request response property
      * @return mixed
      */
     public function getCurlResponseBody()
@@ -69,13 +99,11 @@ class CurlClient
     }
 
     /**
-     * @param mixed $curlResponse
+     * Setups curl request option
+     * @param $option
+     * @param $value
+     * @return $this
      */
-    private function setCurlResponse($curlResponse)
-    {
-        $this->curlResponse = $curlResponse;
-    }
-
     public function setCurlOpt($option, $value)
     {
         curl_setopt($this->getCurl(), $option, $value);
@@ -83,6 +111,7 @@ class CurlClient
     }
 
     /**
+     * Setups request headers
      * @param mixed $option
      * @param mixed $value
      * @return CurlClient
@@ -100,6 +129,7 @@ class CurlClient
     }
 
     /**
+     * Setups request credentials
      * @param mixed $login
      * @param mixed $password
      * @param mixed $type
@@ -112,6 +142,7 @@ class CurlClient
     }
 
     /**
+     * Setups request referrer
      * @param mixed $referrer
      * @return CurlClient
      */
@@ -121,6 +152,7 @@ class CurlClient
     }
 
     /**
+     * Setups request user agent
      * @param mixed $agent
      * @return CurlClient
      */
@@ -130,6 +162,7 @@ class CurlClient
     }
 
     /**
+     * Setups request method
      * @param mixed $method
      * @throws \Exception
      * @return CurlClient
@@ -160,6 +193,7 @@ class CurlClient
     }
 
     /**
+     * Setups curl request URL
      * @param mixed $requestUrl
      * @param array $urlParams
      * @return CurlClient
@@ -176,6 +210,7 @@ class CurlClient
     }
 
     /**
+     * Setups additional request payload
      * @param mixed $requestPayload
      * @param
      * @return CurlClient
@@ -201,6 +236,7 @@ class CurlClient
     }
 
     /**
+     * Add Cookies to Curl request
      * @param mixed $option
      * @param mixed $value
      * @return CurlClient
@@ -215,14 +251,14 @@ class CurlClient
     }
 
     /**
-     * Setting default properties for curl
+     * Default setup for curl
      */
     private function doInitCurl()
     {
-        $this->setCurl(curl_init());
-        $this->setCurlOpt(CURLOPT_HEADER, 1);
-        $this->setCurlOpt(CURLINFO_HEADER_OUT, 1);
-        $this->setCurlOpt(CURLOPT_RETURNTRANSFER, 1);
+        $this->setCurl(curl_init())
+            ->setCurlOpt(CURLOPT_HEADER, 1)
+            ->setCurlOpt(CURLINFO_HEADER_OUT, 1)
+            ->setCurlOpt(CURLOPT_RETURNTRANSFER, 1);
     }
 
     /**
@@ -265,6 +301,5 @@ class CurlClient
             curl_close($this->getCurl());
         }
     }
-
 
 }
